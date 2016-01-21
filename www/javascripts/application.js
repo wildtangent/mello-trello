@@ -71,9 +71,22 @@
       if(card.closed){
         //continue
       }
-        
+      
+      // Grab estimated and actual times from card name
+      var estimateTime = card.name.match(/^\(([0-9\.\?]+)\)/);
+      var actualTime = card.name.match(/\[([0-9.]+)\]$/);
+
+      if(estimateTime !== null){
+        if(estimateTime[1] == "?"){
+          card.estimateTime = "Not yet estimated";
+        } else{
+          card.estimateTime = estimateTime[1] + " hours";
+        }
+      }
       data.ref[card.id] = {
         name: card.name,
+        estimateTime: card.estimateTime,
+        actualTime: card.actualTime,
         desc: marked(card.desc),
         actions: []
       }
